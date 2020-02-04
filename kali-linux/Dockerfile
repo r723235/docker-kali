@@ -17,7 +17,9 @@ RUN apt-get -y install \
     exploitdb \
     gdb \
     git \
+    gobuster \
     man-db \
+    masscan \
     netcat \
     net-tools \
     nikto \
