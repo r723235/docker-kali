@@ -15,6 +15,7 @@ RUN apt-get -y install \
     kali-linux-top10 \
     dirb \
     exploitdb \
+    enum4linux \
     gdb \
     git \
     gobuster \
