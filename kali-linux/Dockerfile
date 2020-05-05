@@ -1,5 +1,5 @@
 # kali linux latest with useful tools
-FROM kalilinux/kali-linux-docker
+FROM kalilinux/kali-rolling
 
 ENV DEBIAN_FRONTEND noninteractive
 
