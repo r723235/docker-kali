@@ -1,17 +1,9 @@
 # kali linux latest with useful tools
-FROM kalilinux/kali-rolling
+FROM kalilinux/kali-rolling:latest
 
 ENV DEBIAN_FRONTEND noninteractive
 
-# update
-RUN apt-get -y update \
-    && apt-get upgrade -y \
-    && apt-get -y dist-upgrade \
-    && apt-get -y autoremove \
-    && apt-get clean
-
-# install several useful tools
-RUN apt-get -y install --no-install-recommends \
+RUN apt-get update && apt-get install -y \
     amass \
     awscli \
     curl \
@@ -46,7 +38,6 @@ RUN apt-get -y install --no-install-recommends \
     python3-setuptools \
     python3-wheel \
     samba \
-    seclists \
     smbclient \
     smbmap \
     smtp-user-enum \
@@ -67,28 +58,25 @@ RUN apt-get -y install --no-install-recommends \
     wpscan \
     zip \
     zsh \
-    && apt-get install -y --no-install-recommends systemctl \
+    && apt-get install -y systemctl \
     && apt-get autoremove -y \
     && apt-get autoclean -y \
     && rm -rf /var/lib/apt/lists/*
 
-# initialize metasploit database
 RUN service postgresql start && msfdb init
 
-# install and configure autorecon
-RUN mkdir /tools \
-    && git clone --depth 1 https://github.com/Tib3rius/AutoRecon.git /tools/AutoRecon \
-    && cd /tools/AutoRecon \
-    && pip3 install -r requirements.txt \
-    && ln -s /tools/AutoRecon/autorecon.py /usr/local/bin/autorecon
-
-# install zsh shell with custom settings and set it as default shell
-RUN sh -c "$(wget -qO- https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-
-# send a custom .zshrc
-COPY config/.zshrc /root/.zshrc
-
-# untar rockyou.txt
+RUN mkdir -p /usr/share/seclists \
+    && git clone https://github.com/danielmiessler/SecLists.git /usr/share/seclists
 RUN tar -xzf /usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt.tar.gz -C /usr/share/seclists/Passwords/Leaked-Databases/
 
-ENTRYPOINT ["service postgresql start && /bin/zsh"]
+RUN mkdir /tools \
+    && git clone https://github.com/Tib3rius/AutoRecon.git /tools/AutoRecon
+WORKDIR /tools/AutoRecon
+RUN pip3 install -r requirements.txt \
+    && ln -s /tools/AutoRecon/autorecon.py /usr/local/bin/autorecon
+
+WORKDIR /
+RUN sh -c "$(wget -qO- https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+COPY config/.zshrc /root/.zshrc
+
+CMD /bin/zsh
