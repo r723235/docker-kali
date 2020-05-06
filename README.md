@@ -8,7 +8,7 @@ Inspired by [ropnop's blog](https://blog.ropnop.com/docker-for-pentesters/) and 
 docker build -t rafa/kali:latest .
 ```
 
-Image size is approximately 4.1 GB.
+Image size is approximately 4.8 GB.
 
 ### Run
 
