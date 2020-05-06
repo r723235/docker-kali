@@ -1,6 +1,6 @@
 # docker-kali
 
-Built from the [kalilinux/kali-rolling](https://www.kali.org/docs/containers/official-kalilinux-docker-images/) base image.
+Inspired by [ropnop's blog](https://blog.ropnop.com/docker-for-pentesters/) and built from the [kalilinux/kali-rolling](https://www.kali.org/docs/containers/official-kalilinux-docker-images/) base image, this Dockerfile includes several frequently used Kali tools. It is meant to provide a disposable, yet powerful, Kali environment.
 
 ### Build
 
