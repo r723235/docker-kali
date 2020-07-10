@@ -4,6 +4,7 @@ FROM kalilinux/kali-rolling:latest
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && apt-get install -y \
+    atop \
     amass \
     awscli \
     curl \
@@ -23,6 +24,7 @@ RUN apt-get update && apt-get install -y \
     man-db \
     masscan \
     metasploit-framework \
+    nano \
     netcat \
     net-tools \
     nikto \
@@ -76,7 +78,7 @@ RUN pip3 install -r requirements.txt \
     && ln -s /tools/AutoRecon/autorecon.py /usr/local/bin/autorecon
 
 WORKDIR /
-RUN sh -c "$(wget -qO- https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
 COPY config/.zshrc /root/.zshrc
 
-CMD /bin/zsh
+ENTRYPOINT ["zsh"]
